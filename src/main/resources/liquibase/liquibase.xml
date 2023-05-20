@@ -13,4 +13,25 @@
         </createTable>
 
     </changeSet>
+
+    <changeSet id="2" author="maryam">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(225)"></column>
+        </createTable>
+
+        <insert tableName="roles">
+            <column name="id" valueComputed="1"/>
+            <column name="name" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="maryam">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT"></column>
+            <column name="role_id" type="BIGINT"></column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

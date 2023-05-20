@@ -23,7 +23,7 @@ public class API {
     }
 
     @PostMapping()
-    public ResponseEntity<String> addNewUser(@RequestBody CoderDto dto, @RequestHeader String username, @RequestHeader String password) {
+    public ResponseEntity<String> addNewUser(@RequestBody CoderDto dto) {
         Optional<Coderz> coderById = service.getCoderById(dto.getId());
         if (coderById.isPresent()) {
             return new ResponseEntity<>("User Already Exists!", HttpStatus.BAD_REQUEST);
