@@ -11,11 +11,4 @@ public class Coderz {
     String username;
     String role;
     String password;
-//     String password;
-//     String username;
-//     Set<Role> roles;
-
-
-
-
 }

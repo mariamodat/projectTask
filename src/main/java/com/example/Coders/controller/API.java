@@ -29,7 +29,7 @@ public class API {
             return new ResponseEntity<>("User Already Exists!", HttpStatus.BAD_REQUEST);
         }
         service.createNewUser(maptoModel(dto));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("User with name: " + dto.getUsername() + "is created!", HttpStatus.OK);
 
     }
 
