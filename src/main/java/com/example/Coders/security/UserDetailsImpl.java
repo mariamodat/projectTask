@@ -34,9 +34,12 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(Coderz user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(user.getUsername()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = List.of(user.getRole()).stream()
+                .map(s->new SimpleGrantedAuthority(user.getUsername())).collect(Collectors.toList());
+
+//                user.getRoles().stream()
+//                .map(role -> new SimpleGrantedAuthority(user.getUsername()))
+//                .collect(Collectors.toList());
 
         return new UserDetailsImpl(
                 user.getId(),

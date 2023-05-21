@@ -33,13 +33,13 @@ public class ApiServiceImpl implements ApiService {
     private CoderEntity mapToEntity(Coderz coder) {
         CoderEntity entity = new CoderEntity();
         entity.setId(coder.getId());
-        entity.setName(coder.getName());
+        entity.setUsername(coder.getUsername());
         return entity;
     }
 
     private Coderz toCoderz(CoderEntity entity) {
         return Coderz.builder().id(entity.getId())
-                .name(entity.getName())
+                .username(entity.getUsername())
                 .build();
     }
 }

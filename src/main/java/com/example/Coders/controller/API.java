@@ -36,7 +36,7 @@ public class API {
     private Coderz maptoModel(CoderDto dto) {
         return Coderz.builder()
                 .id(dto.getId())
-                .name(dto.getName())
+                .username(dto.getUsername())
                 .build();
     }
 }

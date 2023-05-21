@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CoderDto {
     Long id;
-    String name;
-    String password;
     String username;
 }
