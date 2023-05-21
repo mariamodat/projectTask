@@ -1,13 +1,14 @@
 package com.example.Coders.controller;
 
 import com.example.Coders.security.JwtUserDetailsService;
-import com.example.Coders.security.util.JwtTokenUtil;
+import com.example.Coders.security.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class JwtAuthenticationController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private JwtUtils jwtTokenUtil;
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
@@ -27,19 +28,19 @@ public class JwtAuthenticationController {
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestParam String username , @RequestParam String password) throws Exception {
 
-		authenticate(username, password);
+		Authentication authentication = authenticate(username, password);
 
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(username);
+//		final UserDetails userDetails = userDetailsService
+//				.loadUserByUsername(username);
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
+		final String token = jwtTokenUtil.generateJwtToken(authentication);
 
 		return ResponseEntity.ok(token);
 	}
 
-	private void authenticate(String username, String password) throws Exception {
+	private Authentication authenticate(String username, String password) throws Exception {
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
