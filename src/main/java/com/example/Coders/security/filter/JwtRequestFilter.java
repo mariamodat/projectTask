@@ -1,7 +1,7 @@
 package com.example.Coders.security.filter;
 
 import com.example.Coders.security.JwtUserDetailsService;
-import com.example.Coders.security.util.JwtTokenUtil;
+import com.example.Coders.security.util.JwtUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +24,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private JwtUserDetailsService jwtUserDetailsService;
 
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private JwtUtils jwtTokenUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -39,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
-				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+				username = jwtTokenUtil.getUserNameFromJwtToken(jwtToken);
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
 			} catch (ExpiredJwtException e) {
@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 			// if token is valid configure Spring Security to manually set
 			// authentication
-			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+			if (jwtTokenUtil.validateJwtToken(jwtToken)) {
 
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
