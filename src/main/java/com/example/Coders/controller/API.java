@@ -6,6 +6,7 @@ import com.example.Coders.service.ApiServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class API {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addNewUser(@RequestBody CoderDto dto) {
         Optional<Coderz> coderById = service.getCoderById(dto.getId());
         if (coderById.isPresent()) {
